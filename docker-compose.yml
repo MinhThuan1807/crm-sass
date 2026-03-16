@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: crm_password
       POSTGRES_DB: crm_db
     ports:
-      - "5432:5432"   # máy:container
+      - "5433:5432"   # máy:container
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
