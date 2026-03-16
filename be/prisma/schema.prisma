@@ -1,0 +1,159 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+  moduleFormat    = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ── Enums ────────────────────────────────────────────
+enum Role {
+  ADMIN
+  MANAGER
+  SALES_REP
+}
+
+enum DealStage {
+  PROSPECT
+  QUALIFIED
+  PROPOSAL
+  CLOSED_WON
+  CLOSED_LOST
+}
+
+enum ActivityType {
+  CALL
+  EMAIL
+  MEETING
+  NOTE
+}
+
+enum AiSuggestionType {
+  TASK_LIST
+  EMAIL_DRAFT
+  SUMMARY
+}
+
+// ── Models ───────────────────────────────────────────
+
+model Tenant {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique   // vd: "cong-ty-abc"
+  plan      String   @default("free")
+  createdAt DateTime @default(now())
+
+  users     User[]
+  contacts  Contact[]
+  deals     Deal[]
+  activities Activity[]
+}
+
+model User {
+  id           String   @id @default(cuid())
+  tenantId     String             // bắt buộc mọi user
+  email        String
+  passwordHash String
+  name         String
+  role         Role     @default(SALES_REP)
+  createdAt    DateTime @default(now())
+
+  tenant       Tenant     @relation(fields: [tenantId], references: [id])
+  ownedDeals   Deal[]     @relation("DealOwner")
+  activities   Activity[]
+
+  @@unique([tenantId, email])  // email unique trong cùng tenant
+  @@index([tenantId])
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  tenantId  String
+  name      String
+  email     String?            // ? = optional
+  phone     String?
+  company   String?
+  position  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant     Tenant     @relation(fields: [tenantId], references: [id])
+  deals      Deal[]
+  activities Activity[]
+
+  @@index([tenantId])
+  @@index([tenantId, name])  // tìm kiếm theo tên nhanh
+}
+
+model Deal {
+  id          String     @id @default(cuid())
+  tenantId    String
+  contactId   String
+  ownerId     String
+  title       String
+  value       Decimal    @default(0)
+  stage       DealStage  @default(PROSPECT)
+  closeDate   DateTime?
+  note        String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  tenant        Tenant          @relation(fields: [tenantId], references: [id])
+  contact       Contact         @relation(fields: [contactId], references: [id])
+  owner         User            @relation("DealOwner", fields: [ownerId], references: [id])
+  tasks         Task[]
+  aiSuggestions AiSuggestion[]
+  activities    Activity[]
+
+  @@index([tenantId])
+  @@index([tenantId, stage])  // query kanban board nhanh
+  @@index([tenantId, ownerId])
+}
+
+model Activity {
+  id        String       @id @default(cuid())
+  tenantId  String
+  contactId String?
+  dealId    String?
+  userId    String
+  type      ActivityType
+  note      String
+  date      DateTime     @default(now())
+
+  tenant  Tenant   @relation(fields: [tenantId], references: [id])
+  contact Contact? @relation(fields: [contactId], references: [id])
+  deal    Deal?    @relation(fields: [dealId], references: [id])
+  user    User     @relation(fields: [userId], references: [id])
+
+  @@index([tenantId, contactId])
+  @@index([tenantId, dealId])
+}
+
+model Task {
+  id        String   @id @default(cuid())
+  dealId    String
+  title     String
+  done      Boolean  @default(false)
+  dueDate   DateTime?
+  createdAt DateTime @default(now())
+
+  deal Deal @relation(fields: [dealId], references: [id], onDelete: Cascade)
+}
+
+model AiSuggestion {
+  id        String           @id @default(cuid())
+  dealId    String
+  type      AiSuggestionType
+  content   String           // JSON string hoặc plain text
+  sourceNote String?         // meeting note gốc
+  createdAt DateTime         @default(now())
+
+  deal Deal @relation(fields: [dealId], references: [id], onDelete: Cascade)
+}
