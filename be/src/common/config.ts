@@ -17,10 +17,14 @@ if (!fs.existsSync(path.resolve('.env'))) {
 
 const ConfigSchema = z.object({
   DATABASE_URL: z.string(),
-  // ACCESS_TOKEN_SECRET: z.string(),
-  // ACCESS_TOKEN_EXPIRES_IN: z.string(),
-  // REFRESH_TOKEN_SECRET: z.string(),
-  // REFRESH_TOKEN_EXPIRES_IN: z.string(),
+  ACCESS_TOKEN_SECRET: z.string(),
+  ACCESS_TOKEN_EXPIRES_IN: z.string(),
+  REFRESH_TOKEN_SECRET: z.string(),
+  REFRESH_TOKEN_EXPIRES_IN: z.string(),
+
+  FRONTEND_URL: z.string(),
+
+  
   // SECRET_API_KEY: z.string(),
   // ADMIN_NAME: z.string(),
   // ADMIN_PASSWORD: z.string(),

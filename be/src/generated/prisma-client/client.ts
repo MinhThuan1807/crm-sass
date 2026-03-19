@@ -76,3 +76,8 @@ export type Task = Prisma.TaskModel
  * 
  */
 export type AiSuggestion = Prisma.AiSuggestionModel
+/**
+ * Model RefreshToken
+ * 
+ */
+export type RefreshToken = Prisma.RefreshTokenModel

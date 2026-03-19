@@ -46,6 +46,7 @@ export type DealMinAggregateOutputType = {
   note: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type DealMaxAggregateOutputType = {
@@ -60,6 +61,7 @@ export type DealMaxAggregateOutputType = {
   note: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type DealCountAggregateOutputType = {
@@ -74,6 +76,7 @@ export type DealCountAggregateOutputType = {
   note: number
   createdAt: number
   updatedAt: number
+  deletedAt: number
   _all: number
 }
 
@@ -98,6 +101,7 @@ export type DealMinAggregateInputType = {
   note?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type DealMaxAggregateInputType = {
@@ -112,6 +116,7 @@ export type DealMaxAggregateInputType = {
   note?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type DealCountAggregateInputType = {
@@ -126,6 +131,7 @@ export type DealCountAggregateInputType = {
   note?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -227,6 +233,7 @@ export type DealGroupByOutputType = {
   note: string | null
   createdAt: Date
   updatedAt: Date
+  deletedAt: Date | null
   _count: DealCountAggregateOutputType | null
   _avg: DealAvgAggregateOutputType | null
   _sum: DealSumAggregateOutputType | null
@@ -264,6 +271,7 @@ export type DealWhereInput = {
   note?: Prisma.StringNullableFilter<"Deal"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Deal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Deal"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Deal"> | Date | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   contact?: Prisma.XOR<Prisma.ContactScalarRelationFilter, Prisma.ContactWhereInput>
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -284,6 +292,7 @@ export type DealOrderByWithRelationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
   contact?: Prisma.ContactOrderByWithRelationInput
   owner?: Prisma.UserOrderByWithRelationInput
@@ -307,6 +316,7 @@ export type DealWhereUniqueInput = Prisma.AtLeast<{
   note?: Prisma.StringNullableFilter<"Deal"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Deal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Deal"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Deal"> | Date | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   contact?: Prisma.XOR<Prisma.ContactScalarRelationFilter, Prisma.ContactWhereInput>
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -327,6 +337,7 @@ export type DealOrderByWithAggregationInput = {
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DealCountOrderByAggregateInput
   _avg?: Prisma.DealAvgOrderByAggregateInput
   _max?: Prisma.DealMaxOrderByAggregateInput
@@ -349,6 +360,7 @@ export type DealScalarWhereWithAggregatesInput = {
   note?: Prisma.StringNullableWithAggregatesFilter<"Deal"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Deal"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Deal"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Deal"> | Date | string | null
 }
 
 export type DealCreateInput = {
@@ -360,6 +372,7 @@ export type DealCreateInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   tenant: Prisma.TenantCreateNestedOneWithoutDealsInput
   contact: Prisma.ContactCreateNestedOneWithoutDealsInput
   owner: Prisma.UserCreateNestedOneWithoutOwnedDealsInput
@@ -380,6 +393,7 @@ export type DealUncheckedCreateInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutDealInput
   aiSuggestions?: Prisma.AiSuggestionUncheckedCreateNestedManyWithoutDealInput
   activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutDealInput
@@ -394,6 +408,7 @@ export type DealUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDealsNestedInput
   contact?: Prisma.ContactUpdateOneRequiredWithoutDealsNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedDealsNestedInput
@@ -414,6 +429,7 @@ export type DealUncheckedUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutDealNestedInput
   aiSuggestions?: Prisma.AiSuggestionUncheckedUpdateManyWithoutDealNestedInput
   activities?: Prisma.ActivityUncheckedUpdateManyWithoutDealNestedInput
@@ -431,6 +447,7 @@ export type DealCreateManyInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type DealUpdateManyMutationInput = {
@@ -442,6 +459,7 @@ export type DealUpdateManyMutationInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type DealUncheckedUpdateManyInput = {
@@ -456,6 +474,7 @@ export type DealUncheckedUpdateManyInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type DealListRelationFilter = {
@@ -480,6 +499,7 @@ export type DealCountOrderByAggregateInput = {
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type DealAvgOrderByAggregateInput = {
@@ -498,6 +518,7 @@ export type DealMaxOrderByAggregateInput = {
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type DealMinOrderByAggregateInput = {
@@ -512,6 +533,7 @@ export type DealMinOrderByAggregateInput = {
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type DealSumOrderByAggregateInput = {
@@ -666,10 +688,6 @@ export type EnumDealStageFieldUpdateOperationsInput = {
   set?: $Enums.DealStage
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type DealCreateNestedOneWithoutActivitiesInput = {
   create?: Prisma.XOR<Prisma.DealCreateWithoutActivitiesInput, Prisma.DealUncheckedCreateWithoutActivitiesInput>
   connectOrCreate?: Prisma.DealCreateOrConnectWithoutActivitiesInput
@@ -723,6 +741,7 @@ export type DealCreateWithoutTenantInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   contact: Prisma.ContactCreateNestedOneWithoutDealsInput
   owner: Prisma.UserCreateNestedOneWithoutOwnedDealsInput
   tasks?: Prisma.TaskCreateNestedManyWithoutDealInput
@@ -741,6 +760,7 @@ export type DealUncheckedCreateWithoutTenantInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutDealInput
   aiSuggestions?: Prisma.AiSuggestionUncheckedCreateNestedManyWithoutDealInput
   activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutDealInput
@@ -787,6 +807,7 @@ export type DealScalarWhereInput = {
   note?: Prisma.StringNullableFilter<"Deal"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Deal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Deal"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Deal"> | Date | string | null
 }
 
 export type DealCreateWithoutOwnerInput = {
@@ -798,6 +819,7 @@ export type DealCreateWithoutOwnerInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   tenant: Prisma.TenantCreateNestedOneWithoutDealsInput
   contact: Prisma.ContactCreateNestedOneWithoutDealsInput
   tasks?: Prisma.TaskCreateNestedManyWithoutDealInput
@@ -816,6 +838,7 @@ export type DealUncheckedCreateWithoutOwnerInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutDealInput
   aiSuggestions?: Prisma.AiSuggestionUncheckedCreateNestedManyWithoutDealInput
   activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutDealInput
@@ -856,6 +879,7 @@ export type DealCreateWithoutContactInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   tenant: Prisma.TenantCreateNestedOneWithoutDealsInput
   owner: Prisma.UserCreateNestedOneWithoutOwnedDealsInput
   tasks?: Prisma.TaskCreateNestedManyWithoutDealInput
@@ -874,6 +898,7 @@ export type DealUncheckedCreateWithoutContactInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutDealInput
   aiSuggestions?: Prisma.AiSuggestionUncheckedCreateNestedManyWithoutDealInput
   activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutDealInput
@@ -914,6 +939,7 @@ export type DealCreateWithoutActivitiesInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   tenant: Prisma.TenantCreateNestedOneWithoutDealsInput
   contact: Prisma.ContactCreateNestedOneWithoutDealsInput
   owner: Prisma.UserCreateNestedOneWithoutOwnedDealsInput
@@ -933,6 +959,7 @@ export type DealUncheckedCreateWithoutActivitiesInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutDealInput
   aiSuggestions?: Prisma.AiSuggestionUncheckedCreateNestedManyWithoutDealInput
 }
@@ -962,6 +989,7 @@ export type DealUpdateWithoutActivitiesInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDealsNestedInput
   contact?: Prisma.ContactUpdateOneRequiredWithoutDealsNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedDealsNestedInput
@@ -981,6 +1009,7 @@ export type DealUncheckedUpdateWithoutActivitiesInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutDealNestedInput
   aiSuggestions?: Prisma.AiSuggestionUncheckedUpdateManyWithoutDealNestedInput
 }
@@ -994,6 +1023,7 @@ export type DealCreateWithoutTasksInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   tenant: Prisma.TenantCreateNestedOneWithoutDealsInput
   contact: Prisma.ContactCreateNestedOneWithoutDealsInput
   owner: Prisma.UserCreateNestedOneWithoutOwnedDealsInput
@@ -1013,6 +1043,7 @@ export type DealUncheckedCreateWithoutTasksInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   aiSuggestions?: Prisma.AiSuggestionUncheckedCreateNestedManyWithoutDealInput
   activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutDealInput
 }
@@ -1042,6 +1073,7 @@ export type DealUpdateWithoutTasksInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDealsNestedInput
   contact?: Prisma.ContactUpdateOneRequiredWithoutDealsNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedDealsNestedInput
@@ -1061,6 +1093,7 @@ export type DealUncheckedUpdateWithoutTasksInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   aiSuggestions?: Prisma.AiSuggestionUncheckedUpdateManyWithoutDealNestedInput
   activities?: Prisma.ActivityUncheckedUpdateManyWithoutDealNestedInput
 }
@@ -1074,6 +1107,7 @@ export type DealCreateWithoutAiSuggestionsInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   tenant: Prisma.TenantCreateNestedOneWithoutDealsInput
   contact: Prisma.ContactCreateNestedOneWithoutDealsInput
   owner: Prisma.UserCreateNestedOneWithoutOwnedDealsInput
@@ -1093,6 +1127,7 @@ export type DealUncheckedCreateWithoutAiSuggestionsInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutDealInput
   activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutDealInput
 }
@@ -1122,6 +1157,7 @@ export type DealUpdateWithoutAiSuggestionsInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDealsNestedInput
   contact?: Prisma.ContactUpdateOneRequiredWithoutDealsNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedDealsNestedInput
@@ -1141,6 +1177,7 @@ export type DealUncheckedUpdateWithoutAiSuggestionsInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutDealNestedInput
   activities?: Prisma.ActivityUncheckedUpdateManyWithoutDealNestedInput
 }
@@ -1156,6 +1193,7 @@ export type DealCreateManyTenantInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type DealUpdateWithoutTenantInput = {
@@ -1167,6 +1205,7 @@ export type DealUpdateWithoutTenantInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   contact?: Prisma.ContactUpdateOneRequiredWithoutDealsNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedDealsNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutDealNestedInput
@@ -1185,6 +1224,7 @@ export type DealUncheckedUpdateWithoutTenantInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutDealNestedInput
   aiSuggestions?: Prisma.AiSuggestionUncheckedUpdateManyWithoutDealNestedInput
   activities?: Prisma.ActivityUncheckedUpdateManyWithoutDealNestedInput
@@ -1201,6 +1241,7 @@ export type DealUncheckedUpdateManyWithoutTenantInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type DealCreateManyOwnerInput = {
@@ -1214,6 +1255,7 @@ export type DealCreateManyOwnerInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type DealUpdateWithoutOwnerInput = {
@@ -1225,6 +1267,7 @@ export type DealUpdateWithoutOwnerInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDealsNestedInput
   contact?: Prisma.ContactUpdateOneRequiredWithoutDealsNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutDealNestedInput
@@ -1243,6 +1286,7 @@ export type DealUncheckedUpdateWithoutOwnerInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutDealNestedInput
   aiSuggestions?: Prisma.AiSuggestionUncheckedUpdateManyWithoutDealNestedInput
   activities?: Prisma.ActivityUncheckedUpdateManyWithoutDealNestedInput
@@ -1259,6 +1303,7 @@ export type DealUncheckedUpdateManyWithoutOwnerInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type DealCreateManyContactInput = {
@@ -1272,6 +1317,7 @@ export type DealCreateManyContactInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type DealUpdateWithoutContactInput = {
@@ -1283,6 +1329,7 @@ export type DealUpdateWithoutContactInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDealsNestedInput
   owner?: Prisma.UserUpdateOneRequiredWithoutOwnedDealsNestedInput
   tasks?: Prisma.TaskUpdateManyWithoutDealNestedInput
@@ -1301,6 +1348,7 @@ export type DealUncheckedUpdateWithoutContactInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutDealNestedInput
   aiSuggestions?: Prisma.AiSuggestionUncheckedUpdateManyWithoutDealNestedInput
   activities?: Prisma.ActivityUncheckedUpdateManyWithoutDealNestedInput
@@ -1317,6 +1365,7 @@ export type DealUncheckedUpdateManyWithoutContactInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1380,6 +1429,7 @@ export type DealSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1401,6 +1451,7 @@ export type DealSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1418,6 +1469,7 @@ export type DealSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1435,9 +1487,10 @@ export type DealSelectScalar = {
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
 }
 
-export type DealOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "contactId" | "ownerId" | "title" | "value" | "stage" | "closeDate" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["deal"]>
+export type DealOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "contactId" | "ownerId" | "title" | "value" | "stage" | "closeDate" | "note" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["deal"]>
 export type DealInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
@@ -1480,6 +1533,7 @@ export type $DealPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     note: string | null
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date | null
   }, ExtArgs["result"]["deal"]>
   composites: {}
 }
@@ -1920,6 +1974,7 @@ export interface DealFieldRefs {
   readonly note: Prisma.FieldRef<"Deal", 'String'>
   readonly createdAt: Prisma.FieldRef<"Deal", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Deal", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"Deal", 'DateTime'>
 }
     
 

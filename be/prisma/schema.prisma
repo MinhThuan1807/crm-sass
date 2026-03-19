@@ -5,7 +5,8 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma-client"
+  output   = "../generated/prisma-client"
+  // moduleFormat  = "cjs"
 }
 
 datasource db {
@@ -39,7 +40,6 @@ enum AiSuggestionType {
   EMAIL_DRAFT
   SUMMARY
 }
-
 // ── Models ───────────────────────────────────────────
 
 model Tenant {
@@ -58,19 +58,21 @@ model Tenant {
 model User {
   id           String   @id @default(cuid())
   tenantId     String             // bắt buộc mọi user
-  email        String
-  passwordHash String
+  email        String   @unique 
+  password     String
   name         String
   role         Role     @default(SALES_REP)
   createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt // tự động cập nhật khi record thay đổi
 
   tenant       Tenant     @relation(fields: [tenantId], references: [id])
   ownedDeals   Deal[]     @relation("DealOwner")
   activities   Activity[]
+  refreshTokens RefreshToken[] 
 
-  @@unique([tenantId, email])  // email unique trong cùng tenant
   @@index([tenantId])
 }
+  // @@unique([tenantId, email])  // email unique trong cùng tenant
 
 model Contact {
   id        String   @id @default(cuid())
@@ -82,6 +84,7 @@ model Contact {
   position  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  deletedAt DateTime? // soft delete
 
   tenant     Tenant     @relation(fields: [tenantId], references: [id])
   deals      Deal[]
@@ -103,6 +106,7 @@ model Deal {
   note        String?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?  // soft delete
 
   tenant        Tenant          @relation(fields: [tenantId], references: [id])
   contact       Contact         @relation(fields: [contactId], references: [id])
@@ -155,4 +159,17 @@ model AiSuggestion {
   createdAt DateTime         @default(now())
 
   deal Deal @relation(fields: [dealId], references: [id], onDelete: Cascade)
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
