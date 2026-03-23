@@ -114,4 +114,18 @@ export class AuthService {
     const [, tokens] = await Promise.all([$deletedToken, $tokens])
     return tokens
   }
+
+  async getProfile(userId: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        tenantId: true,
+      },
+    })
+    return user
+  }
 }
