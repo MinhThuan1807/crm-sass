@@ -32,5 +32,35 @@ User được ADMIN mời → nhận email có link token → click vào tự đ
 Giai đoạn hiện tại  →  Hướng 3 (email globally unique)
 Sau khi xong core   →  Nâng lên Hướng 1 (subdomain)
 
+## Passport jwt
+// Không dùng Passport — tự xử lý thủ công
+@Get('me')
+getMe(@Req() req) {
+  const token = req.headers.authorization?.split(' ')[1]
+  if (!token) throw new UnauthorizedException()
+  
+  try {
+    const payload = jwt.verify(token, secret)
+    return payload
+  } catch {
+    throw new UnauthorizedException()
+  }
+}
+
+Vấn đề: logic này lặp lại ở **mọi route cần auth**.
+
+---
+
+## Passport giải quyết bằng cách nào?
+
+Passport chuẩn hóa luồng xác thực thành **"Strategy" pattern**:
+
+Bạn chỉ cần định nghĩa:
+  - Lấy token từ đâu     → jwtFromRequest
+  - Verify bằng gì       → secretOrKey  
+  - Sau khi verify làm gì → validate()
+
+Passport lo hết phần còn lại.
+
 
 
