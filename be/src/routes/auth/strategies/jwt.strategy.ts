@@ -9,7 +9,10 @@ import envConfig from 'src/common/config';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      // jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (req) => req?.cookies?.['accessToken'] ?? null,
+      ]),
       ignoreExpiration: false,
       secretOrKey: envConfig.ACCESS_TOKEN_SECRET,
     });
