@@ -11,7 +11,7 @@ async function bootstrap() {
     origin: envConfig.FRONTEND_URL || 'http://localhost:3000',
     credentials: true,
   });
-  await app.listen(process.env.PORT ?? 3001);
+  await app.listen(process.env.PORT ??' https://crm-sass-production.up.railway.app/');
 
 }
 bootstrap();
