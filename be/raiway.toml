@@ -1,6 +1,9 @@
 [build]
 builder = "NIXPACKS"
 
+[build.nixpacksPlan.phases.setup]
+nixPkgs = ["nodejs_20", "npm-10_x"]
+
 [deploy]
 startCommand = "npm run build && node dist/main"
 healthcheckPath = "/health"
