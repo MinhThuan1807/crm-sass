@@ -23,7 +23,8 @@ const ConfigSchema = z.object({
   REFRESH_TOKEN_EXPIRES_IN: z.string(),
 
   FRONTEND_URL: z.string(),
-
+  NODE_ENV: z.string(),
+  PORT: z.string(),
   
   // SECRET_API_KEY: z.string(),
   // ADMIN_NAME: z.string(),

@@ -8,6 +8,7 @@ export class PrismaService extends PrismaClient {
   constructor() {
     const adapter = new PrismaPg({
       connectionString: envConfig.DATABASE_URL,
+      // ssl:  process.env.NODE_ENV === 'production' ? true : false
     });
     super({ adapter });
   }

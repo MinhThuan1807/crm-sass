@@ -23,13 +23,13 @@ export const RegisterBodySchema = UserSchema.pick({
   password: true,
   name: true,
 }).extend({
-  confirmPassword: z.string(),
-  companyName: z.string().min(2).max(100),
+  confirmPassword: z.string().min(8, "Mật khẩu xác nhận phải có ít nhất 8 ký tự."),
+  companyName: z.string().min(2, "Tên công ty phải có ít nhất 2 ký tự.").max(100, "Tên công ty không được vượt quá 100 ký tự."),
 }).strict().superRefine(({ password, confirmPassword }, ctx) => {
   if (password !== confirmPassword) {
     ctx.addIssue({
       code: 'custom',
-      message: 'Passwords do not match',
+      message: 'Mật khẩu xác nhận không khớp.',
       path: ["confirmPassword"],
     })
   }
