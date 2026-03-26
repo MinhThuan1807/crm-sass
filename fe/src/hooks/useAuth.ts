@@ -1,0 +1,66 @@
+"use client";
+import { LoginBodyType, RegisterBodyType } from "@/lib/validations/auth.schema";
+import { auth } from "@/services/auth.service";
+import { ApiError } from "@/types/error.type";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
+export const useLogin = () => {
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: (data: LoginBodyType) => {
+      return auth.login(data);
+    },
+
+    onSuccess: () => {
+      toast.success("Đăng nhập thành công");
+      router.push("/");
+    },
+
+    onError: (error: ApiError) => {
+      const message = error.response?.data.message || "Đăng nhập thất bại";
+      // let message = "Đăng nhập thất bại";
+
+      // if (typeof data?.message === "string") {
+      //   message = data.message;
+      // } else if (Array.isArray(data?.message) && data.message.length > 0) {
+      //   // Lấy message từ phần tử đầu tiên trong array
+      //   message = data.message[0]?.message || "Đăng nhập thất bại";
+      // }
+      toast.error(message);
+    },
+  });
+};
+
+export const useLogout = () => {
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: () => {
+      return auth.logout();
+    },
+    onSuccess: () => {
+      toast.success("Đăng xuất thành công");
+      router.push("/login");
+    },
+  });
+};
+
+export const useRegister = () => {
+  const router = useRouter();
+  return useMutation({
+    mutationFn: (data: RegisterBodyType) => {
+      return auth.register(data);
+    },
+    onSuccess: () => {
+      toast.success("Đăng ký thành công. Vui lòng đăng nhập.");
+      router.push("/login");
+    },
+    onError: (error: ApiError) => {
+      const message = error?.response?.data?.message || "Đăng ký thất bại";
+      toast.error(message);
+    },
+  });
+};

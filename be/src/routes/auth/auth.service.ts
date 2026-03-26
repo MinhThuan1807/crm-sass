@@ -56,12 +56,12 @@ export class AuthService {
 
     const isPasswordValid = await this.hashingService.compare(body.password, user.password)
     if (!isPasswordValid) {
-      throw new UnprocessableEntityException([
+      throw new UnprocessableEntityException(
         {
-          message: 'Invalid password',
+          message: 'Sai mật khẩu. Vui lòng thử lại.',
           path: 'password',
         },
-      ])
+      )
     }
 
     const tokens = await this.generateTokens({ userId: user.id, role: user.role, tenantId: user.tenantId })
