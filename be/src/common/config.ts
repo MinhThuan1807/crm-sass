@@ -24,7 +24,7 @@ const ConfigSchema = z.object({
 
   FRONTEND_URL: z.string(),
   NODE_ENV: z.string(),
-  PORT: z.number(),
+  PORT: z.string(),
   
   // SECRET_API_KEY: z.string(),
   // ADMIN_NAME: z.string(),
