@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { QueryProvider } from "./providers/queryProvider";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -28,7 +29,9 @@ export default function RootLayout({
       <body
         className={`${geistInter.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <QueryProvider> 
+            {children}
+        </QueryProvider>
         <Toaster position="top-right" richColors />
       </body>
     </html>
