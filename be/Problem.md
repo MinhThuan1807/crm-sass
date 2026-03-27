@@ -64,3 +64,17 @@ Passport lo hết phần còn lại.
 
 
 
+
+#Convention đặt tên
+[Entity][Action][Kind]
+
+Entity: Contact
+Action: Create, Update, Get, GetAll, Delete...
+Kind:   Body (input), Res (output), Query (query params)
+
+Suffix        Ý nghĩa                               Dùng ở
+Base          Schema gốc, không export ra ngoài     Nội bộ model.ts
+Body          Input từ client                       @Body() trong controller
+Query         Query params                          @Query() trong controller
+Res           Output trả về client                  @ZodSerializerDto()
+Type          TypeScript type                       Tham số trong service/repo

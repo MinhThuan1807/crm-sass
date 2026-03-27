@@ -15,6 +15,7 @@ import { CurrentUser } from 'src/common/decorators/current-user.decorator'
 import { RolesGuard } from 'src/common/guards/roles.guard'
 import { Roles } from 'src/common/decorators/roles.decorator'
 import { ROLE } from 'src/common/constants/role.constanst'
+import { MessageDto } from 'src/common/dto/message.dto'
 
 @Controller('auth')
 export class AuthController {
@@ -27,11 +28,9 @@ export class AuthController {
   }
 
   @Post('login')
-  // @ZodSerializerDto(LoginResDto)
-  // @ZodSerializerDto(LoginResDto)
+  @ZodSerializerDto(MessageDto)
   async login(
     @Body() body: LoginBodyDto,
-    // passthrough to handle cookies in service layer
     @Res({ passthrough: true }) res: Response
   ) {
     const { accessToken, refreshToken } = await this.authService.login(body)
@@ -49,14 +48,12 @@ export class AuthController {
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000, 
     })
-    // return { accessToken, refreshToken }
     return { message: 'Login successful' }
   }
 
   @Post('logout')
-  @ZodSerializerDto(LogoutResDto)
+  @ZodSerializerDto(MessageDto)
   logout(
-    // @Body() body: { refreshToken: string },
     @Res({ passthrough: true }) res: Response,
     @Req() req: Request
   ) {

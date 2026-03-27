@@ -1,0 +1,69 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { ContactsRepository } from './contacts.repo';
+import { CreateContactBodyType, GetContactsQueryType } from './contacts.model';
+
+@Injectable()
+export class ContactsService {
+  constructor(private readonly contactRepository: ContactsRepository) {}
+
+  async getAllContacts(tenantId: string, query: GetContactsQueryType) {
+      const { cursor, limit, search } = query;
+
+      const contacts = await this.contactRepository.findAll(tenantId,{
+        cursor,
+        limit,
+        search
+      });
+      // 3. Tính hasNextPage
+      const hasNextPage = contacts.length > limit;
+
+      const data = hasNextPage ? contacts.slice(0, -1) : contacts;
+      // slice(0, -1) bỏ phần tử cuối (phần tử thừa)
+
+      // 4. Lấy cursor tiếp theo
+      const nextCursor = hasNextPage ? data[data.length - 1].id : null
+
+      const pagination = {nextCursor, hasNextPage}
+
+      return {
+        data,
+        pagination
+      }   
+  }
+
+  async getContactById(contactId: string, tenantId: string) {
+    const contact =  await this.contactRepository.findOne(contactId, tenantId);
+    if (!contact) {
+      throw new NotFoundException('Contact not found');
+    }
+    return contact;
+  }
+
+  createContact(tenantId: string, body: CreateContactBodyType) {
+    return this.contactRepository.create(tenantId, body)
+  }
+
+  async update(contactId: string, tenantId: string, body: Partial<CreateContactBodyType>) {
+    const exits = await this.contactRepository.findOne(contactId, tenantId);
+    if (!exits) {
+      throw new NotFoundException('Contact not found');
+    }
+    return this.contactRepository.update(contactId, tenantId, body);
+  }
+
+  async delete(contactId: string, tenantId: string) {
+    const exits = await this.contactRepository.findOne(contactId, tenantId);
+    if (!exits) {
+      throw new NotFoundException('Contact not found');
+    }
+    return this.contactRepository.delete(contactId, tenantId)
+  }
+
+  async restore(contactId: string, tenantId: string) {
+    const exits = await this.contactRepository.findDeleted(contactId, tenantId);
+    if (!exits) {
+      throw new NotFoundException('Contact not found');
+    }
+    return this.contactRepository.restore(contactId, tenantId)
+  }
+}

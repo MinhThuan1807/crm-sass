@@ -8,8 +8,9 @@ import { APP_PIPE } from '@nestjs/core/constants'
 import { MyZodValidationPipe } from './common/pipe/custom-zod-validation.pipe'
 import { HttpExceptionFilter } from './common/filters/http-exception.filter'
 import { AuthModule } from './routes/auth/auth.module'
+import { ContactsModule } from './routes/contacts/contacts.module';
 @Module({
-  imports: [CommonModule, AuthModule],
+  imports: [CommonModule, AuthModule, ContactsModule],
   controllers: [AppController],
   providers: [
     AppService,
