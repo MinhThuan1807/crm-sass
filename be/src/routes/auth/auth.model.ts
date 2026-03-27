@@ -30,7 +30,7 @@ export const RegisterBodySchema = UserWithPasswordSchema.pick({
   if (password !== confirmPassword) {
     ctx.addIssue({
       code: 'custom',
-      message: 'Passwords do not match',
+      message: 'Mật khẩu xác nhận không khớp',
     })
   }
 });
