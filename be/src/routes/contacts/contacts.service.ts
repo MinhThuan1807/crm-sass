@@ -34,7 +34,7 @@ export class ContactsService {
   async getContactById(contactId: string, tenantId: string) {
     const contact =  await this.contactRepository.findOne(contactId, tenantId);
     if (!contact) {
-      throw new NotFoundException('Contact not found');
+      throw new NotFoundException('Hợp đồng không tồn tại');
     }
     return contact;
   }
@@ -46,7 +46,7 @@ export class ContactsService {
   async update(contactId: string, tenantId: string, body: Partial<CreateContactBodyType>) {
     const exits = await this.contactRepository.findOne(contactId, tenantId);
     if (!exits) {
-      throw new NotFoundException('Contact not found');
+      throw new NotFoundException('Hợp đồng không tồn tại');
     }
     return this.contactRepository.update(contactId, tenantId, body);
   }
@@ -54,7 +54,7 @@ export class ContactsService {
   async delete(contactId: string, tenantId: string) {
     const exits = await this.contactRepository.findOne(contactId, tenantId);
     if (!exits) {
-      throw new NotFoundException('Contact not found');
+      throw new NotFoundException('Hợp đồng không tồn tại');
     }
     return this.contactRepository.delete(contactId, tenantId)
   }
@@ -62,7 +62,7 @@ export class ContactsService {
   async restore(contactId: string, tenantId: string) {
     const exits = await this.contactRepository.findDeleted(contactId, tenantId);
     if (!exits) {
-      throw new NotFoundException('Contact not found');
+      throw new NotFoundException('Hợp đồng không tồn tại');
     }
     return this.contactRepository.restore(contactId, tenantId)
   }

@@ -25,13 +25,13 @@ export class AuthService {
     const existSlug = await this.sharedUserRepository.findSlug(slug)
 
     if (existSlug) {
-      throw new ConflictException('Company name already exists')
+      throw new ConflictException('Tên công ty đã tồn tại, vui lòng chọn tên khác')
     }
 
     const existUser = await this.authRepository.findUserByEmail(body.email)
 
     if (existUser) {
-      throw new ConflictException('Email already exists')
+      throw new ConflictException('Email đã được sử dụng, vui lòng chọn email khác')
     }
 
     const hashedPassword = await this.hashingService.hash(body.password)
@@ -51,7 +51,7 @@ export class AuthService {
     const user = await this.authRepository.findUserByEmail(body.email)
 
     if (!user) {
-      throw new UnauthorizedException()
+      throw new UnauthorizedException('Email hoặc mật khẩu không đúng')
     }
 
     const isPasswordValid = await this.hashingService.compare(body.password, user.password)
@@ -70,7 +70,7 @@ export class AuthService {
 
   async logout(refreshToken: string) {
     await this.authRepository.deleteRefreshToken(refreshToken);
-    return { message: 'Logged out successfully' }
+    return { message: 'Đăng xuất thành công' }
   }
 
   async generateTokens({ userId, role, tenantId }: AccessTokenPayloadCreate) {
@@ -101,7 +101,7 @@ export class AuthService {
     const storedToken = await this.authRepository.findRefreshTokenIncludeUser(payload.refreshToken)
 
     if (!storedToken) {
-      throw new UnauthorizedException('Invalid refresh token')
+      throw new UnauthorizedException('Token làm mới không hợp lệ')
     }
 
     const {

@@ -81,7 +81,7 @@ export class AuthController {
   @Roles(ROLE.ADMIN)
   @Get('admin')
   getAdminProfile(@CurrentUser() user) {
-    return { message: 'This route is only for ADMIN', user }
+    return { message: 'Đường dẫn cho ADMIN', user }
   }
 
 }

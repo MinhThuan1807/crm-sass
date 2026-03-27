@@ -9,8 +9,9 @@ import { MyZodValidationPipe } from './common/pipe/custom-zod-validation.pipe'
 import { HttpExceptionFilter } from './common/filters/http-exception.filter'
 import { AuthModule } from './routes/auth/auth.module'
 import { ContactsModule } from './routes/contacts/contacts.module';
+import { ActivitiesModule } from './routes/activities/activities.module';
 @Module({
-  imports: [CommonModule, AuthModule, ContactsModule],
+  imports: [CommonModule, AuthModule, ContactsModule, ActivitiesModule],
   controllers: [AppController],
   providers: [
     AppService,
