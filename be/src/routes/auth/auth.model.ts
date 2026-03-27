@@ -1,20 +1,25 @@
 import { ROLE } from "src/common/constants/role.constanst";
 import z from "zod";
 
-export const UserSchema = z.object({
+export const UserBaseSchema = z.object({
   id: z.string(),
   tenantId: z.string(),
   email: z.string(),
   name: z.string(),
   role: z.enum([ROLE.ADMIN, ROLE.MANAGER, ROLE.SALES_REP]),
-  password: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
 })
 
-export type UserType = z.infer<typeof UserSchema>;
+export type UserType = z.infer<typeof UserBaseSchema>;
 
-export const RegisterBodySchema = UserSchema.pick({
+// Schema này dùng để validate dữ liệu trả về khi đăng ký thành công, không bao gồm password
+
+export const UserWithPasswordSchema = UserBaseSchema.extend({
+  password: z.string(),
+})
+
+export const RegisterBodySchema = UserWithPasswordSchema.pick({
   email: true,
   password: true,
   name: true,
@@ -32,13 +37,12 @@ export const RegisterBodySchema = UserSchema.pick({
 
 export type RegisterBodyType = z.infer<typeof RegisterBodySchema>;
 
-export const RegisterResSchema = UserSchema.omit({
-  password: true,
-})
+export const RegisterResSchema = UserBaseSchema
 
 export type RegisterResType = z.infer<typeof RegisterResSchema>;
 
-export const LoginBodySchema = UserSchema.pick({
+
+export const LoginBodySchema = UserWithPasswordSchema.pick({
   email: true,
   password: true,
 }).strict();
