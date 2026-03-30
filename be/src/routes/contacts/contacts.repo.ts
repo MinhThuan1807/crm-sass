@@ -31,6 +31,10 @@ export class ContactsRepository {
             ]
           : undefined,
       },
+      include: {
+        deals: { where: { deletedAt: null } },
+        activities: { orderBy: { date: 'desc' }, take: 10 },
+      },
       take: query.limit + 1, // lấy thêm 1 để biết còn trang tiếp không
       cursor: query.cursor ? { id: query.cursor } : undefined,
       skip: query.cursor ? 1 : 0,

@@ -6,15 +6,11 @@ import {
   SidebarGroup,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
-import { SalesFlowLogo } from "@/app/(auth)/login/page";
 import { Button } from "./ui/button";
-import { toast } from "sonner";
-import { auth } from "@/services/auth.service";
 import {
   LayoutDashboard,
   GitBranch,

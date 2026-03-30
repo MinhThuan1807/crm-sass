@@ -8,6 +8,7 @@ import {
   GetContactResSchema,
   // GET ALL
   GetContactsQuerySchema, GetContactsResSchema,
+  GetContactsWithDealsActivitiesResSchema,
 } from "./contacts.model";
 
 // CREATE
@@ -23,4 +24,4 @@ export class GetContactResDto extends createZodDto(GetContactResSchema) {}
 
 // GET ALL
 export class GetContactsQueryDto extends createZodDto(GetContactsQuerySchema) {}
-export class GetContactsResDto   extends createZodDto(GetContactsResSchema) {}
+export class GetContactsResDto   extends createZodDto(GetContactsWithDealsActivitiesResSchema) {}

@@ -54,7 +54,7 @@ export const GetContactResSchema = ContactBaseSchema
       id:    z.string(),
       title: z.string(),
       stage: z.string(),
-      value: z.number(),
+      value: z.coerce.number(),
     })),
     activities: z.array(z.object({
       id:   z.string(),
@@ -66,6 +66,23 @@ export const GetContactResSchema = ContactBaseSchema
 
 export type GetContactResType = z.infer<typeof GetContactResSchema>
 
+export const GetContactWithDealsActivitiesResSchema = ContactBaseSchema.omit({
+  deletedAt: true,
+}).extend({
+  deals: z.array(
+    z.object({
+      id: z.string(),
+      value: z.coerce.number(),
+    }),
+  ),
+  activities: z.array(
+    z.object({
+      id: z.string(),
+      date: z.coerce.date(),
+    }),
+  ),
+});
+export type GetContactWithDealsActivitiesResType = z.infer<typeof GetContactWithDealsActivitiesResSchema>
 // ─────────────────────────────────────────
 // GET ALL — GET /contacts
 // ─────────────────────────────────────────
@@ -82,6 +99,13 @@ export const GetContactsResSchema = z.object({
     hasNextPage: z.boolean(),
   }),
 })
+export const GetContactsWithDealsActivitiesResSchema = z.object({
+  data: z.array(GetContactWithDealsActivitiesResSchema),  // dùng lại, không expose deletedAt
+  pagination: z.object({
+    nextCursor: z.string().nullable(),
+    hasNextPage: z.boolean(),
+  }),
+})
 
 export type GetContactsQueryType = z.infer<typeof GetContactsQuerySchema>
-export type GetContactsResType   = z.infer<typeof GetContactsResSchema>
+export type GetContactsResType   = z.infer<typeof GetContactsWithDealsActivitiesResSchema>
