@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards, Req, Res } from '@nestjs/common'
-import { Response, Request } from 'express'
+import {  Response, Request } from 'express'
 import { ZodSerializerDto } from 'nestjs-zod'
 import {
   LoginBodyDto,
@@ -38,7 +38,10 @@ export class AuthController {
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax',
+      // deploy production nên đổi lại:
+      // sameSite: 'none',
+      // secure: true
       maxAge: 15 * 60 * 1000, 
     })
 
@@ -66,9 +69,10 @@ export class AuthController {
   }
 
   @Post('refresh-token')
-  @ZodSerializerDto(RefreshTokenResDto)
-  refreshToken(@Body() body: { refreshToken: string }) {
-    return this.authService.refreshToken(body)
+  @ZodSerializerDto(MessageDto)
+  refreshToken(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    const refreshToken = req.cookies.refreshToken
+    return this.authService.refreshToken(refreshToken, res)
   }
 
   @UseGuards(JwtAuthGuard)

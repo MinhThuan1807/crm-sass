@@ -1,13 +1,15 @@
 import { ConflictException, Injectable, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common'
 import { PrismaService } from 'src/common/services/prisma.service'
 import { HashingService } from 'src/common/services/hashing.service'
-import { LoginBodyType, RefreshTokenBodyType, RegisterBodyType } from './auth.model'
+import { LoginBodyType, RegisterBodyType } from './auth.model'
 import slugify from 'slugify'
 import { ROLE } from 'src/common/constants/role.constanst'
 import { SharedUserRepository } from 'src/common/repositories/shared-user.repo'
 import { AccessTokenPayloadCreate, RefreshTokenPayload, RefreshTokenPayloadCreate } from 'src/common/types/jwt.type'
 import { TokenService } from 'src/common/services/token.service'
 import { AuthRepository } from './auth.repo'
+import {  Response as ExpressResponse } from 'express'
+import envConfig from 'src/common/config'
 
 @Injectable()
 export class AuthService {
@@ -95,24 +97,42 @@ export class AuthService {
     return { accessToken, refreshToken }
   }
 
-  async refreshToken(payload: RefreshTokenBodyType) {
-    const { userId } = await this.tokenService.verifyRefreshToken(payload.refreshToken)
+  async refreshToken(refreshToken: string, res: ExpressResponse) {
+    const { userId } = await this.tokenService.verifyRefreshToken(refreshToken)
 
-    const storedToken = await this.authRepository.findRefreshTokenIncludeUser(payload.refreshToken)
+    const storedToken = await this.authRepository.findRefreshTokenIncludeUser(refreshToken)
 
     if (!storedToken) {
-      throw new UnauthorizedException('Token làm mới không hợp lệ')
+      throw new UnauthorizedException('Invalid refresh token')
     }
 
-    const {
-      user: { role, tenantId },
-    } = storedToken
+    await this.authRepository.deleteRefreshToken(refreshToken)
 
-    const $deletedToken = this.authRepository.deleteRefreshToken(payload.refreshToken)
+    const tokens = await this.generateTokens({
+      userId,
+      role: storedToken.user.role,
+      tenantId: storedToken.user.tenantId,
+    })
 
-    const $tokens = this.generateTokens({ userId, role, tenantId })
-    const [, tokens] = await Promise.all([$deletedToken, $tokens])
-    return tokens
+    const isProduction = envConfig.NODE_ENV === 'production'
+
+    res.cookie('accessToken', tokens.accessToken, {
+      httpOnly: true,
+      secure: isProduction,          // true khi deploy HTTPS
+      sameSite: isProduction ? 'none' : 'lax', 
+      maxAge: 15 * 60 * 1000,        // 15 phút
+      path: '/',                     // toàn bộ domain
+    })
+
+    res.cookie('refreshToken', tokens.refreshToken, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
+      path: '/auth', // 🔥 chỉ gửi khi gọi API auth (bảo mật hơn)
+    })
+
+    return { message: 'Refreshed successfully' }
   }
 
   async getProfile(userId: string) {
