@@ -1,0 +1,139 @@
+import { ArrowRight } from "lucide-react";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+const reps = [
+  { rank: 1, initials: "TH", name: "Trần Thị Hương", deals: 12, revenue: 420, avatarBg: "#D4F5E4", avatarColor: "#1A5C38" },
+  { rank: 2, initials: "NQ", name: "Nguyễn Quang",   deals: 9,  revenue: 315, avatarBg: "#D4E8F5", avatarColor: "#1A4C6A" },
+  { rank: 3, initials: "PL", name: "Phạm Thị Lan",   deals: 8,  revenue: 280, avatarBg: "#F5D4D4", avatarColor: "#6A1A1A" },
+  { rank: 4, initials: "VD", name: "Vũ Đức Minh",    deals: 6,  revenue: 195, avatarBg: "#FFF0D4", avatarColor: "#6A400A" },
+  { rank: 5, initials: "LT", name: "Lê Thị Thu",     deals: 5,  revenue: 140, avatarBg: "#EEE8FD", avatarColor: "#3D2D8A" },
+];
+
+const maxRevenue = 420;
+
+const rankLabel = (r: number) =>
+  r === 1 ? "🥇" : r === 2 ? "🥈" : r === 3 ? "🥉" : String(r);
+
+export function Leaderboard() {
+  return (
+    <Card className="shadow-none border-border/70 gap-0 py-0 h-full flex flex-col">
+      <CardHeader className="border-b px-5 py-4">
+        <div>
+          <CardTitle className="text-sm tracking-tight">Bảng xếp hạng</CardTitle>
+          <CardDescription className="text-xs mt-0.5">
+            Hiệu suất tháng này
+          </CardDescription>
+        </div>
+      </CardHeader>
+
+      <CardContent className="px-3 pt-2 pb-2 flex-1 space-y-0.5">
+        {reps.map((rep) => {
+          const isFirst = rep.rank === 1;
+          const barW = Math.round((rep.revenue / maxRevenue) * 64);
+
+          return (
+            <div
+              key={rep.rank}
+              className={cn(
+                "flex items-center gap-2.5 px-2.5 py-2 rounded-lg transition-colors cursor-default",
+                isFirst
+                  ? "bg-secondary/50 border border-primary/20"
+                  : "hover:bg-muted/60"
+              )}
+            >
+              {/* Rank */}
+              <span
+                className={cn(
+                  "w-5 text-center shrink-0 leading-none",
+                  isFirst ? "text-base" : "text-muted-foreground"
+                )}
+                style={isFirst ? {} : { fontSize: 12, fontWeight: 500 }}
+              >
+                {rankLabel(rep.rank)}
+              </span>
+
+              {/* Avatar */}
+              <Avatar
+                className="size-7 shrink-0"
+                style={isFirst ? { outline: "1.5px solid #C4C0F0", borderRadius: "50%" } : {}}
+              >
+                <AvatarFallback
+                  className="border-0"
+                  style={{
+                    background: rep.avatarBg,
+                    color: rep.avatarColor,
+                    fontSize: 10,
+                    fontWeight: 600,
+                  }}
+                >
+                  {rep.initials}
+                </AvatarFallback>
+              </Avatar>
+
+              {/* Info */}
+              <div className="flex-1 min-w-0">
+                <p
+                  className={cn(
+                    "truncate leading-tight text-foreground",
+                    isFirst ? "" : ""
+                  )}
+                  style={{ fontSize: 13, fontWeight: isFirst ? 600 : 400 }}
+                >
+                  {rep.name}
+                </p>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <div
+                    className="h-1 rounded-full"
+                    style={{
+                      width: barW,
+                      background: isFirst ? "#534AB7" : "#D3D1E8",
+                    }}
+                  />
+                  <span
+                    className="text-muted-foreground"
+                    style={{ fontSize: 11 }}
+                  >
+                    {rep.deals} deals
+                  </span>
+                </div>
+              </div>
+
+              {/* Revenue */}
+              <span
+                className="shrink-0 tabular-nums"
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: isFirst ? "#534AB7" : "#1A1A18",
+                }}
+              >
+                {rep.revenue}tr
+              </span>
+            </div>
+          );
+        })}
+      </CardContent>
+
+      <CardFooter className="border-t px-5 py-3 justify-center">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-7 gap-1 text-primary hover:text-primary hover:bg-secondary/60 text-xs"
+        >
+          Xem toàn bộ báo cáo
+          <ArrowRight className="size-3" />
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}

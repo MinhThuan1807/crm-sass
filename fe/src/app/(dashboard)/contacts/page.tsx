@@ -1,0 +1,130 @@
+"use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import { useDebounceValue } from "usehooks-ts";
+import { ChevronDown, Filter, Plus, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import {
+  useGetContacts
+} from "@/hooks/useContacts";
+import ContactTable from "@/components/contacts/ContactTable";
+import { Spinner } from "@/components/ui/spinner";
+import {
+  Contact,
+} from "@/lib/validations/contacts.scheme";
+import ContactDialog from "@/components/contacts/ContactDialog";
+
+const ContactsPage = () => {
+  const [search, setSearch] = useState("");
+  const router = useRouter();
+  const [debouncedSearch] = useDebounceValue(search, 300);
+   const [dialog, setDialog] = useState<{
+    isOpen: boolean;
+    contact?: Contact;
+  }>({ isOpen: false });
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    useGetContacts({ limit: 10, search: debouncedSearch });
+
+  const contacts = data?.pages.flatMap((page) => page.data) ?? [];
+
+  const handleDirect = (id: string) => {
+    router.push(`/contacts/${id}`);
+  };
+  return (
+    <>
+      <div className="h-screen flex">
+        <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
+          {/* ── Top bar ──────────────────────────────────────────────────────── */}
+          <header className="h-14 shrink-0 border-b bg-background flex items-center justify-between px-6 gap-3">
+            <h1
+              className="text-foreground tracking-tight"
+              style={{ fontSize: 15, fontWeight: 600, lineHeight: 1 }}
+            >
+              Contacts
+            </h1>
+
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground pointer-events-none" />
+                <Input
+                  placeholder="Tìm kiếm liên hệ..."
+                  className="h-8 pl-8 w-44 text-xs bg-background border-border"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                {/* {isLoading && <p>Loading...</p>} */}
+                {hasNextPage && (
+                  <button
+                    onClick={() => fetchNextPage()}
+                    disabled={isFetchingNextPage}
+                  >
+                    {isFetchingNextPage ? "Đang tải..." : "Tải thêm"}
+                  </button>
+                )}
+              </div>
+
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 gap-1.5 border-border text-muted-foreground hover:text-foreground text-xs"
+              >
+                <Filter size={13} />
+                Lọc theo
+              </Button>
+
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-8 gap-1 border-border text-muted-foreground hover:text-foreground text-xs"
+              >
+                Tất cả tags
+                <ChevronDown size={12} />
+              </Button>
+
+              <Button
+                size="sm"
+                className="h-8 gap-1.5 text-xs"
+                onClick={() => setDialog({ isOpen: true })}
+              >
+                <Plus size={13} />
+                Thêm liên hệ
+              </Button>
+            </div>
+          </header>
+          {/* ── Main content ─────────────────────────────────────────────────── */}
+          <main className="flex-1 overflow-y-auto bg-[#F8F8F7] p-5">
+            <div className="h-full bg-background rounded-xl border border-border/70 overflow-hidden shadow-none">
+              {isLoading ? (
+                <Button
+                  disabled
+                  size="sm"
+                  className="w-full h-full justify-center bg-secondary border-none text-foreground"
+                >
+                  <Spinner data-icon="inline-start" />
+                  Loading...
+                </Button>
+              ) : (
+                <ContactTable
+                  contacts={contacts}
+                  onDirect={handleDirect}
+                  isPending={isFetchingNextPage}
+                  onEdit={(contact) => setDialog({ isOpen: true, contact })}
+                  onAdd={() => setDialog({ isOpen: true })}
+                />
+              )}
+            </div>
+          </main>
+        </div>
+      </div>
+      <ContactDialog
+        {...dialog}
+        onOpenChange={(open) => setDialog((s) => ({ ...s, isOpen: open }))}
+      />
+    </>
+  );
+};
+
+export default ContactsPage;

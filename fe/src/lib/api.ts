@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/";
+const baseUrl = "http://localhost:3001/";
 
 export const axiosInstance = axios.create({
-  baseURL: baseURL || process.env.NEXT_PUBLIC_API_URL,
+  baseURL: baseUrl || process.env.NEXT_PUBLIC_API_URL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -23,14 +23,14 @@ axiosInstance.interceptors.response.use(
 
       try {
         // Refresh — cookie refreshToken tự đính vào request này
-        await axios.post(
-          `${baseURL}/auth/refresh`,
+        await axiosInstance.post(
+          `${baseUrl}auth/refresh-token`,
           {},
         )
         // BE set cookie mới tự động
         return axiosInstance(originalRequest)  // retry với cookie mới
       } catch {
-        window.location.href = '/login'
+        window.location.href = 'login'
         return Promise.reject(error)
       }
     }
