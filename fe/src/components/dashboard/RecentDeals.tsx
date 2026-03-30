@@ -1,0 +1,213 @@
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardAction,
+  CardContent,
+} from "@/components/ui/card";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
+} from "@/components/ui/table";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+
+interface Deal {
+  id: string;
+  title: string;
+  company: string;
+  stage: string;
+  stageBg: string;
+  stageColor: string;
+  value: string;
+  owner: { initials: string; bg: string; color: string };
+  daysAgo: number;
+}
+
+const deals: Deal[] = [
+  {
+    id: "d1",
+    title: "Security Audit Platform",
+    company: "Ngân hàng JKL",
+    stage: "Proposal",
+    stageBg: "#FEF3E2",
+    stageColor: "#854F0B",
+    value: "480tr",
+    owner: { initials: "TH", bg: "#D4F5E4", color: "#1A5C38" },
+    daysAgo: 0,
+  },
+  {
+    id: "d2",
+    title: "ERP Implementation",
+    company: "Tập đoàn MNO",
+    stage: "Qualified",
+    stageBg: "#E6F4D7",
+    stageColor: "#3B6D11",
+    value: "720tr",
+    owner: { initials: "NQ", bg: "#D4E8F5", color: "#1A4C6A" },
+    daysAgo: 1,
+  },
+  {
+    id: "d3",
+    title: "Cloud Migration",
+    company: "Công ty Cổ phần PQR",
+    stage: "Prospect",
+    stageBg: "#EEEDFE",
+    stageColor: "#534AB7",
+    value: "320tr",
+    owner: { initials: "PL", bg: "#F5D4D4", color: "#6A1A1A" },
+    daysAgo: 2,
+  },
+  {
+    id: "d4",
+    title: "HR Management System",
+    company: "Tập đoàn STU",
+    stage: "Closed Won",
+    stageBg: "#DCFCE7",
+    stageColor: "#166534",
+    value: "195tr",
+    owner: { initials: "VD", bg: "#FFF0D4", color: "#6A400A" },
+    daysAgo: 3,
+  },
+  {
+    id: "d5",
+    title: "Data Analytics Dashboard",
+    company: "Cty TNHH VWX",
+    stage: "Proposal",
+    stageBg: "#FEF3E2",
+    stageColor: "#854F0B",
+    value: "560tr",
+    owner: { initials: "LT", bg: "#EEE8FD", color: "#3D2D8A" },
+    daysAgo: 5,
+  },
+];
+
+function timeLabel(daysAgo: number) {
+  if (daysAgo === 0) return "Hôm nay";
+  if (daysAgo === 1) return "Hôm qua";
+  return `${daysAgo} ngày trước`;
+}
+
+export function RecentDeals() {
+  return (
+    <Card className="shadow-none border-border/70 gap-0 py-0">
+      <CardHeader className="border-b px-5 py-4">
+        <div>
+          <CardTitle className="text-sm tracking-tight">Deals gần đây</CardTitle>
+          <CardDescription className="text-xs mt-0.5">
+            Hoạt động trong 7 ngày qua
+          </CardDescription>
+        </div>
+        <CardAction>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 gap-1 text-primary hover:text-primary hover:bg-secondary/60 text-xs px-2"
+            asChild
+          >
+            <Link href="/pipeline">
+              Xem tất cả
+              <ArrowRight className="size-3" />
+            </Link>
+          </Button>
+        </CardAction>
+      </CardHeader>
+
+      <CardContent className="p-0">
+        <Table>
+          <TableHeader>
+            <TableRow className="border-b-border/50 hover:bg-transparent">
+              <TableHead className="px-5 py-2 text-muted-foreground" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.02em" }}>
+                Deal
+              </TableHead>
+              <TableHead className="px-2 py-2 text-muted-foreground" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.02em" }}>
+                Giai đoạn
+              </TableHead>
+              <TableHead className="px-2 py-2 text-muted-foreground" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.02em" }}>
+                Giá trị
+              </TableHead>
+              <TableHead className="px-2 py-2 text-muted-foreground" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.02em" }}>
+                Owner
+              </TableHead>
+              <TableHead className="px-5 py-2 text-muted-foreground text-right" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.02em" }}>
+                Ngày
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {deals.map((deal) => (
+              <TableRow
+                key={deal.id}
+                className="cursor-pointer border-b border-b-muted/60 hover:bg-muted/30"
+              >
+                {/* Deal + company */}
+                <TableCell className="px-5 py-3">
+                  <div className="min-w-0">
+                    <p
+                      className="text-foreground truncate max-w-[200px]"
+                      style={{ fontSize: 13, fontWeight: 500 }}
+                    >
+                      {deal.title}
+                    </p>
+                    <p className="text-muted-foreground truncate max-w-[200px]" style={{ fontSize: 11, marginTop: 1 }}>
+                      {deal.company}
+                    </p>
+                  </div>
+                </TableCell>
+
+                {/* Stage badge */}
+                <TableCell className="px-2 py-3">
+                  <span
+                    className="inline-block rounded-full px-2 py-0.5 whitespace-nowrap"
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 500,
+                      color: deal.stageColor,
+                      background: deal.stageBg,
+                    }}
+                  >
+                    {deal.stage}
+                  </span>
+                </TableCell>
+
+                {/* Value */}
+                <TableCell className="px-2 py-3 text-foreground tabular-nums" style={{ fontSize: 13, fontWeight: 600 }}>
+                  {deal.value}
+                </TableCell>
+
+                {/* Owner */}
+                <TableCell className="px-2 py-3">
+                  <Avatar className="size-6">
+                    <AvatarFallback
+                      className="border-0"
+                      style={{
+                        background: deal.owner.bg,
+                        color: deal.owner.color,
+                        fontSize: 10,
+                        fontWeight: 600,
+                      }}
+                    >
+                      {deal.owner.initials}
+                    </AvatarFallback>
+                  </Avatar>
+                </TableCell>
+
+                {/* Time */}
+                <TableCell className="px-5 py-3 text-muted-foreground text-right" style={{ fontSize: 11 }}>
+                  {timeLabel(deal.daysAgo)}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  );
+}

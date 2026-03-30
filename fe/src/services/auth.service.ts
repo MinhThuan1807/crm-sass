@@ -2,7 +2,7 @@ import { axiosInstance } from "@/lib/api";
 import { LoginFormValues, RegisterFormValues } from "../types/auth.type";
 import { RegisterBodyType } from "@/lib/validations/auth.schema";
 
-export const auth = {
+export const authService = {
   login: async (values: LoginFormValues) => {
     const response = await axiosInstance.post("/auth/login", values);
     return response.data;

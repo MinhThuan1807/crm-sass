@@ -1,6 +1,6 @@
 "use client";
 import { LoginBodyType, RegisterBodyType } from "@/lib/validations/auth.schema";
-import { auth } from "@/services/auth.service";
+import { authService } from "@/services/auth.service";
 import { ApiError } from "@/types/error.type";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,7 @@ export const useLogin = () => {
 
   return useMutation({
     mutationFn: (data: LoginBodyType) => {
-      return auth.login(data);
+      return authService.login(data);
     },
 
     onSuccess: () => {
@@ -39,7 +39,7 @@ export const useLogout = () => {
 
   return useMutation({
     mutationFn: () => {
-      return auth.logout();
+      return authService.logout();
     },
     onSuccess: () => {
       toast.success("Đăng xuất thành công");
@@ -52,7 +52,7 @@ export const useRegister = () => {
   const router = useRouter();
   return useMutation({
     mutationFn: (data: RegisterBodyType) => {
-      return auth.register(data);
+      return authService.register(data);
     },
     onSuccess: () => {
       toast.success("Đăng ký thành công. Vui lòng đăng nhập.");
