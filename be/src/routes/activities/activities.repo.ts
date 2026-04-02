@@ -10,12 +10,13 @@ export class ActivitiesRepository {
     return this.prisma.activity.create({
       data: {
         tenantId,
-        contactId,
+        contactId,  
         userId,
+        title: data.title,
         type: data.type,
         note: data.note,
         date: data.date ?? new Date(), 
-      },
+      },  
     })
   }
 
@@ -25,7 +26,7 @@ export class ActivitiesRepository {
       orderBy: { date: 'desc' }, 
       include: {
         user: {
-          select: { id: true, name: true, role: true } // ai tạo activity
+          select: { id: true} // ai tạo activity
         }
       }
     })

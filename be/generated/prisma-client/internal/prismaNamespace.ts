@@ -1107,6 +1107,7 @@ export const ActivityScalarFieldEnum = {
   contactId: 'contactId',
   dealId: 'dealId',
   userId: 'userId',
+  title: 'title',
   type: 'type',
   note: 'note',
   date: 'date'

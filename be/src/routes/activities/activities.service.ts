@@ -24,8 +24,6 @@ export class ActivitiesService {
 
     if (!contact) throw new NotFoundException('Hợp đồng không tồn tại')
 
-    const data = await this.activitiesRepository.findAllByContact(tenantId, contactId)
-
-    return { data }
+    return { data: await this.activitiesRepository.findAllByContact(tenantId, contactId) }
   }
 }

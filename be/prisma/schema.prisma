@@ -126,6 +126,7 @@ model Activity {
   contactId String?
   dealId    String?
   userId    String
+  title     String?
   type      ActivityType
   note      String
   date      DateTime     @default(now())

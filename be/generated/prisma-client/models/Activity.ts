@@ -30,6 +30,7 @@ export type ActivityMinAggregateOutputType = {
   contactId: string | null
   dealId: string | null
   userId: string | null
+  title: string | null
   type: $Enums.ActivityType | null
   note: string | null
   date: Date | null
@@ -41,6 +42,7 @@ export type ActivityMaxAggregateOutputType = {
   contactId: string | null
   dealId: string | null
   userId: string | null
+  title: string | null
   type: $Enums.ActivityType | null
   note: string | null
   date: Date | null
@@ -52,6 +54,7 @@ export type ActivityCountAggregateOutputType = {
   contactId: number
   dealId: number
   userId: number
+  title: number
   type: number
   note: number
   date: number
@@ -65,6 +68,7 @@ export type ActivityMinAggregateInputType = {
   contactId?: true
   dealId?: true
   userId?: true
+  title?: true
   type?: true
   note?: true
   date?: true
@@ -76,6 +80,7 @@ export type ActivityMaxAggregateInputType = {
   contactId?: true
   dealId?: true
   userId?: true
+  title?: true
   type?: true
   note?: true
   date?: true
@@ -87,6 +92,7 @@ export type ActivityCountAggregateInputType = {
   contactId?: true
   dealId?: true
   userId?: true
+  title?: true
   type?: true
   note?: true
   date?: true
@@ -171,6 +177,7 @@ export type ActivityGroupByOutputType = {
   contactId: string | null
   dealId: string | null
   userId: string
+  title: string | null
   type: $Enums.ActivityType
   note: string
   date: Date
@@ -203,6 +210,7 @@ export type ActivityWhereInput = {
   contactId?: Prisma.StringNullableFilter<"Activity"> | string | null
   dealId?: Prisma.StringNullableFilter<"Activity"> | string | null
   userId?: Prisma.StringFilter<"Activity"> | string
+  title?: Prisma.StringNullableFilter<"Activity"> | string | null
   type?: Prisma.EnumActivityTypeFilter<"Activity"> | $Enums.ActivityType
   note?: Prisma.StringFilter<"Activity"> | string
   date?: Prisma.DateTimeFilter<"Activity"> | Date | string
@@ -218,6 +226,7 @@ export type ActivityOrderByWithRelationInput = {
   contactId?: Prisma.SortOrderInput | Prisma.SortOrder
   dealId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
+  title?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   note?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -236,6 +245,7 @@ export type ActivityWhereUniqueInput = Prisma.AtLeast<{
   contactId?: Prisma.StringNullableFilter<"Activity"> | string | null
   dealId?: Prisma.StringNullableFilter<"Activity"> | string | null
   userId?: Prisma.StringFilter<"Activity"> | string
+  title?: Prisma.StringNullableFilter<"Activity"> | string | null
   type?: Prisma.EnumActivityTypeFilter<"Activity"> | $Enums.ActivityType
   note?: Prisma.StringFilter<"Activity"> | string
   date?: Prisma.DateTimeFilter<"Activity"> | Date | string
@@ -251,6 +261,7 @@ export type ActivityOrderByWithAggregationInput = {
   contactId?: Prisma.SortOrderInput | Prisma.SortOrder
   dealId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
+  title?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   note?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -268,6 +279,7 @@ export type ActivityScalarWhereWithAggregatesInput = {
   contactId?: Prisma.StringNullableWithAggregatesFilter<"Activity"> | string | null
   dealId?: Prisma.StringNullableWithAggregatesFilter<"Activity"> | string | null
   userId?: Prisma.StringWithAggregatesFilter<"Activity"> | string
+  title?: Prisma.StringNullableWithAggregatesFilter<"Activity"> | string | null
   type?: Prisma.EnumActivityTypeWithAggregatesFilter<"Activity"> | $Enums.ActivityType
   note?: Prisma.StringWithAggregatesFilter<"Activity"> | string
   date?: Prisma.DateTimeWithAggregatesFilter<"Activity"> | Date | string
@@ -275,6 +287,7 @@ export type ActivityScalarWhereWithAggregatesInput = {
 
 export type ActivityCreateInput = {
   id?: string
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -290,6 +303,7 @@ export type ActivityUncheckedCreateInput = {
   contactId?: string | null
   dealId?: string | null
   userId: string
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -297,6 +311,7 @@ export type ActivityUncheckedCreateInput = {
 
 export type ActivityUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -312,6 +327,7 @@ export type ActivityUncheckedUpdateInput = {
   contactId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -323,6 +339,7 @@ export type ActivityCreateManyInput = {
   contactId?: string | null
   dealId?: string | null
   userId: string
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -330,6 +347,7 @@ export type ActivityCreateManyInput = {
 
 export type ActivityUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -341,6 +359,7 @@ export type ActivityUncheckedUpdateManyInput = {
   contactId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -362,6 +381,7 @@ export type ActivityCountOrderByAggregateInput = {
   contactId?: Prisma.SortOrder
   dealId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   type?: Prisma.SortOrder
   note?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -373,6 +393,7 @@ export type ActivityMaxOrderByAggregateInput = {
   contactId?: Prisma.SortOrder
   dealId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   type?: Prisma.SortOrder
   note?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -384,6 +405,7 @@ export type ActivityMinOrderByAggregateInput = {
   contactId?: Prisma.SortOrder
   dealId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   type?: Prisma.SortOrder
   note?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -563,6 +585,7 @@ export type EnumActivityTypeFieldUpdateOperationsInput = {
 
 export type ActivityCreateWithoutTenantInput = {
   id?: string
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -576,6 +599,7 @@ export type ActivityUncheckedCreateWithoutTenantInput = {
   contactId?: string | null
   dealId?: string | null
   userId: string
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -616,6 +640,7 @@ export type ActivityScalarWhereInput = {
   contactId?: Prisma.StringNullableFilter<"Activity"> | string | null
   dealId?: Prisma.StringNullableFilter<"Activity"> | string | null
   userId?: Prisma.StringFilter<"Activity"> | string
+  title?: Prisma.StringNullableFilter<"Activity"> | string | null
   type?: Prisma.EnumActivityTypeFilter<"Activity"> | $Enums.ActivityType
   note?: Prisma.StringFilter<"Activity"> | string
   date?: Prisma.DateTimeFilter<"Activity"> | Date | string
@@ -623,6 +648,7 @@ export type ActivityScalarWhereInput = {
 
 export type ActivityCreateWithoutUserInput = {
   id?: string
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -636,6 +662,7 @@ export type ActivityUncheckedCreateWithoutUserInput = {
   tenantId: string
   contactId?: string | null
   dealId?: string | null
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -669,6 +696,7 @@ export type ActivityUpdateManyWithWhereWithoutUserInput = {
 
 export type ActivityCreateWithoutContactInput = {
   id?: string
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -682,6 +710,7 @@ export type ActivityUncheckedCreateWithoutContactInput = {
   tenantId: string
   dealId?: string | null
   userId: string
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -715,6 +744,7 @@ export type ActivityUpdateManyWithWhereWithoutContactInput = {
 
 export type ActivityCreateWithoutDealInput = {
   id?: string
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -728,6 +758,7 @@ export type ActivityUncheckedCreateWithoutDealInput = {
   tenantId: string
   contactId?: string | null
   userId: string
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -764,6 +795,7 @@ export type ActivityCreateManyTenantInput = {
   contactId?: string | null
   dealId?: string | null
   userId: string
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -771,6 +803,7 @@ export type ActivityCreateManyTenantInput = {
 
 export type ActivityUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -784,6 +817,7 @@ export type ActivityUncheckedUpdateWithoutTenantInput = {
   contactId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -794,6 +828,7 @@ export type ActivityUncheckedUpdateManyWithoutTenantInput = {
   contactId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -804,6 +839,7 @@ export type ActivityCreateManyUserInput = {
   tenantId: string
   contactId?: string | null
   dealId?: string | null
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -811,6 +847,7 @@ export type ActivityCreateManyUserInput = {
 
 export type ActivityUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -824,6 +861,7 @@ export type ActivityUncheckedUpdateWithoutUserInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   contactId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -834,6 +872,7 @@ export type ActivityUncheckedUpdateManyWithoutUserInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   contactId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -844,6 +883,7 @@ export type ActivityCreateManyContactInput = {
   tenantId: string
   dealId?: string | null
   userId: string
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -851,6 +891,7 @@ export type ActivityCreateManyContactInput = {
 
 export type ActivityUpdateWithoutContactInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -864,6 +905,7 @@ export type ActivityUncheckedUpdateWithoutContactInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   dealId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -874,6 +916,7 @@ export type ActivityUncheckedUpdateManyWithoutContactInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   dealId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -884,6 +927,7 @@ export type ActivityCreateManyDealInput = {
   tenantId: string
   contactId?: string | null
   userId: string
+  title?: string | null
   type: $Enums.ActivityType
   note: string
   date?: Date | string
@@ -891,6 +935,7 @@ export type ActivityCreateManyDealInput = {
 
 export type ActivityUpdateWithoutDealInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -904,6 +949,7 @@ export type ActivityUncheckedUpdateWithoutDealInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   contactId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -914,6 +960,7 @@ export type ActivityUncheckedUpdateManyWithoutDealInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   contactId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   note?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -927,6 +974,7 @@ export type ActivitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   contactId?: boolean
   dealId?: boolean
   userId?: boolean
+  title?: boolean
   type?: boolean
   note?: boolean
   date?: boolean
@@ -942,6 +990,7 @@ export type ActivitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   contactId?: boolean
   dealId?: boolean
   userId?: boolean
+  title?: boolean
   type?: boolean
   note?: boolean
   date?: boolean
@@ -957,6 +1006,7 @@ export type ActivitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   contactId?: boolean
   dealId?: boolean
   userId?: boolean
+  title?: boolean
   type?: boolean
   note?: boolean
   date?: boolean
@@ -972,12 +1022,13 @@ export type ActivitySelectScalar = {
   contactId?: boolean
   dealId?: boolean
   userId?: boolean
+  title?: boolean
   type?: boolean
   note?: boolean
   date?: boolean
 }
 
-export type ActivityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "contactId" | "dealId" | "userId" | "type" | "note" | "date", ExtArgs["result"]["activity"]>
+export type ActivityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "contactId" | "dealId" | "userId" | "title" | "type" | "note" | "date", ExtArgs["result"]["activity"]>
 export type ActivityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   contact?: boolean | Prisma.Activity$contactArgs<ExtArgs>
@@ -1011,6 +1062,7 @@ export type $ActivityPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     contactId: string | null
     dealId: string | null
     userId: string
+    title: string | null
     type: $Enums.ActivityType
     note: string
     date: Date
@@ -1446,6 +1498,7 @@ export interface ActivityFieldRefs {
   readonly contactId: Prisma.FieldRef<"Activity", 'String'>
   readonly dealId: Prisma.FieldRef<"Activity", 'String'>
   readonly userId: Prisma.FieldRef<"Activity", 'String'>
+  readonly title: Prisma.FieldRef<"Activity", 'String'>
   readonly type: Prisma.FieldRef<"Activity", 'ActivityType'>
   readonly note: Prisma.FieldRef<"Activity", 'String'>
   readonly date: Prisma.FieldRef<"Activity", 'DateTime'>

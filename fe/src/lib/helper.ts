@@ -15,11 +15,17 @@ export function relativeTime(dateStr: string | Date): string {
   return `${Math.floor(diff / 30)} tháng trước`;
 }
 export function getInitials(name: string): string {
+  // Tách tên thành các phần bằng khoảng trắng
   const parts = name.trim().split(/\s+/);
+  // Nếu chỉ có 1 từ, lấy 2 ký tự đầu: "NGUYỄN" → "NG"
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
   
   // Lấy ký tự đầu của 2 từ cuối: "NGUYỄN MINH THUẬN" → "M" + "T" = "MT"
   const second = parts[parts.length - 2];
   const last   = parts[parts.length - 1];
   return (second[0] + last[0]).toUpperCase();
+}
+
+export function formatCurrency(value: number, locale = "vi-VN", currency = "VND"): string {
+  return new Intl.NumberFormat(locale, { style: "currency", currency }).format(value);
 }
