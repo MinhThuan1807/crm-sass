@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards, Req, Res } from '@nestjs/common'
-import {  Response, Request } from 'express'
+import { Response, Request } from 'express'
 import { ZodSerializerDto } from 'nestjs-zod'
 import {
   LoginBodyDto,
@@ -16,6 +16,18 @@ import { RolesGuard } from 'src/common/guards/roles.guard'
 import { Roles } from 'src/common/decorators/roles.decorator'
 import { ROLE } from 'src/common/constants/role.constanst'
 import { MessageDto } from 'src/common/dto/message.dto'
+import envConfig from 'src/common/config'
+
+// Cookie options dùng chung để đảm bảo nhất quán
+const isProduction = envConfig.NODE_ENV === 'production'
+
+const COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: isProduction,           // true trên production (bắt buộc với sameSite: none)
+  sameSite: isProduction          // production: 'none' (cross-site), dev: 'lax' (local)
+    ? ('none' as const)
+    : ('lax' as const),
+}
 
 @Controller('auth')
 export class AuthController {
@@ -29,48 +41,37 @@ export class AuthController {
 
   @Post('login')
   @ZodSerializerDto(MessageDto)
-  async login(
-    @Body() body: LoginBodyDto,
-    @Res({ passthrough: true }) res: Response
-  ) {
+  async login(@Body() body: LoginBodyDto, @Res({ passthrough: true }) res: Response) {
     const { accessToken, refreshToken } = await this.authService.login(body)
 
     res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      // deploy production nên đổi lại:
-      // sameSite: 'none',
-      // secure: true
-      maxAge: 15 * 60 * 1000, 
+      ...COOKIE_OPTIONS,
+      maxAge: 15 * 60 * 1000, // 15 phút
     })
 
     res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000, 
+      ...COOKIE_OPTIONS,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
     })
+
     return { message: 'Login successful' }
   }
 
   @Post('logout')
   @ZodSerializerDto(MessageDto)
-  logout(
-    @Res({ passthrough: true }) res: Response,
-    @Req() req: Request
-  ) {
+  logout(@Res({ passthrough: true }) res: Response, @Req() req: Request) {
     const refreshToken = req.cookies['refreshToken']
 
-    res.clearCookie('accessToken')
-    res.clearCookie('refreshToken')
+    // Phải truyền đúng options khi clear, không thì browser không xóa được
+    res.clearCookie('accessToken', COOKIE_OPTIONS)
+    res.clearCookie('refreshToken', COOKIE_OPTIONS)
 
     return this.authService.logout(refreshToken)
   }
 
   @Post('refresh-token')
   @ZodSerializerDto(MessageDto)
-  refreshToken(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+  async refreshToken(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const refreshToken = req.cookies.refreshToken
     return this.authService.refreshToken(refreshToken, res)
   }
@@ -87,5 +88,4 @@ export class AuthController {
   getAdminProfile(@CurrentUser() user) {
     return { message: 'Đường dẫn cho ADMIN', user }
   }
-
 }

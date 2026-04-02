@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:3001/";
+const baseUrl = "http://crm-be-v2-923396622.ap-southeast-1.elb.amazonaws.com:3001/";
 
 export const axiosInstance = axios.create({
   baseURL: baseUrl || process.env.NEXT_PUBLIC_API_URL,
