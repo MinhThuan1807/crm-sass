@@ -6,21 +6,16 @@ import { useDebounceValue } from "usehooks-ts";
 import { ChevronDown, Filter, Plus, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import {
-  useGetContacts
-} from "@/hooks/useContacts";
-import ContactTable from "@/components/contacts/ContactTable";
-import { Spinner } from "@/components/ui/spinner";
-import {
-  Contact,
-} from "@/lib/validations/contacts.scheme";
-import ContactDialog from "@/components/contacts/ContactDialog";
+import { useGetContacts } from "@/hooks/useContacts";
+import ContactTable from "@/app/(dashboard)/contacts/_components/ContactTable";
+import { Contact } from "@/lib/validations/contacts.scheme";
+import ContactDialog from "@/app/(dashboard)/contacts/_components/ContactDialog";
 
 const ContactsPage = () => {
   const [search, setSearch] = useState("");
   const router = useRouter();
   const [debouncedSearch] = useDebounceValue(search, 300);
-   const [dialog, setDialog] = useState<{
+  const [dialog, setDialog] = useState<{
     isOpen: boolean;
     contact?: Contact;
   }>({ isOpen: false });
@@ -97,24 +92,13 @@ const ContactsPage = () => {
           {/* ── Main content ─────────────────────────────────────────────────── */}
           <main className="flex-1 overflow-y-auto bg-[#F8F8F7] p-5">
             <div className="h-full bg-background rounded-xl border border-border/70 overflow-hidden shadow-none">
-              {isLoading ? (
-                <Button
-                  disabled
-                  size="sm"
-                  className="w-full h-full justify-center bg-secondary border-none text-foreground"
-                >
-                  <Spinner data-icon="inline-start" />
-                  Loading...
-                </Button>
-              ) : (
-                <ContactTable
-                  contacts={contacts}
-                  onDirect={handleDirect}
-                  isPending={isFetchingNextPage}
-                  onEdit={(contact) => setDialog({ isOpen: true, contact })}
-                  onAdd={() => setDialog({ isOpen: true })}
-                />
-              )}
+              <ContactTable
+                contacts={contacts}
+                onDirect={handleDirect}
+                isPending={isLoading}
+                onEdit={(contact) => setDialog({ isOpen: true, contact })}
+                onAdd={() => setDialog({ isOpen: true })}
+              />
             </div>
           </main>
         </div>

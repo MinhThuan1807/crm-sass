@@ -6,20 +6,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Eye, Pencil, Plus, Users } from "lucide-react";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "../../../../components/ui/button";
 import { getInitials, relativeTime } from "@/lib/helper";
 import {
   Contact,
@@ -33,7 +25,101 @@ interface ContactTableProps {
   onAdd?: () => void;
 }
 
-// ── Empty state illustration ───────────────────────────────────────────────
+const TABLE_COLUMNS = [
+  "Liên hệ",
+  "Công ty",
+  "Email",
+  "Số điện thoại",
+  "Tags",
+  "Deals",
+  "Giá trị",
+  "Ngày tạo",
+  "Hoạt động cuối",
+  "",
+] as const;
+
+function ContactTableSkeleton() {
+  return (
+    <>
+      <Table>
+        <TableHeader>
+          <TableRow className="hover:bg-transparent border-b border-border/60">
+            {TABLE_COLUMNS.map((col, idx) => (
+              <TableHead
+                key={idx}
+                className="px-4 py-3 text-muted-foreground uppercase"
+                style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  letterSpacing: "0.04em",
+                }}
+              >
+                {col}
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
+          {Array.from({ length: 8 }).map((_, idx) => (
+            <TableRow
+              key={`skeleton-${idx}`}
+              className="border-b border-border/40"
+            >
+              <TableCell className="px-4 py-3">
+                <div className="flex items-center gap-2.5">
+                  <Skeleton className="size-8 rounded-full shrink-0" />
+                  <div className="space-y-1.5">
+                    <Skeleton className="h-3 w-24" />
+                    <Skeleton className="h-2.5 w-20" />
+                  </div>
+                </div>
+              </TableCell>
+              <TableCell className="px-4 py-3">
+                <Skeleton className="h-3 w-20" />
+              </TableCell>
+              <TableCell className="px-4 py-3">
+                <Skeleton className="h-3 w-32" />
+              </TableCell>
+              <TableCell className="px-4 py-3">
+                <Skeleton className="h-3 w-24" />
+              </TableCell>
+              <TableCell className="px-4 py-3">
+                <Skeleton className="h-5 w-16 rounded-full" />
+              </TableCell>
+              <TableCell className="px-4 py-3">
+                <Skeleton className="h-3 w-12" />
+              </TableCell>
+              <TableCell className="px-4 py-3">
+                <Skeleton className="h-3 w-20" />
+              </TableCell>
+              <TableCell className="px-4 py-3">
+                <Skeleton className="h-3 w-14" />
+              </TableCell>
+              <TableCell className="px-4 py-3">
+                <Skeleton className="h-3 w-16" />
+              </TableCell>
+              <TableCell className="px-3 py-3">
+                <Skeleton className="h-7 w-14" />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+      <div
+        className="px-4 py-0.5 border-t border-border/40 flex items-center gap-1.5 text-muted-foreground"
+        style={{ fontSize: 12 }}
+      >
+        <div className="flex items-center gap-1.5 min-w-20">
+          <Users size={12} className="shrink-0" />
+          <Skeleton className="h-3 w-16" />
+        </div>
+      </div>
+    </>
+  );
+}
+
 function EmptyIllustration() {
   return (
     <svg
@@ -108,12 +194,17 @@ function EmptyIllustration() {
     </svg>
   );
 }
+
 function ContactTable({
   contacts,
   onDirect,
+  isPending,
   onEdit,
-  onAdd
+  onAdd,
 }: ContactTableProps) {
+  if (isPending && contacts.length === 0) {
+    return <ContactTableSkeleton />;
+  }
 
   return (
     <>
@@ -123,18 +214,7 @@ function ContactTable({
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent border-b border-border/60">
-                {[
-                  "Liên hệ",
-                  "Công ty",
-                  "Email",
-                  "Số điện thoại",
-                  "Tags",
-                  "Deals",
-                  "Giá trị",
-                  "Ngày tạo",
-                  "Hoạt động cuối",
-                  "", // actions — no heading
-                ].map((col, idx) => (
+                {TABLE_COLUMNS.map((col, idx) => (
                   <TableHead
                     key={idx}
                     className="px-4 py-3 text-muted-foreground uppercase"
@@ -183,7 +263,7 @@ function ContactTable({
                         >
                           {contact.name}
                         </p>
-                      <p
+                        <p
                           className="text-muted-foreground"
                           style={{ fontSize: 11 }}
                         >
@@ -318,7 +398,7 @@ function ContactTable({
               <Users size={12} className="shrink-0" />
               {contacts.length} liên hệ
             </div>
-{/*             
+            {/*             
             <Pagination>
               <PaginationContent>
                 <PaginationItem>
@@ -373,7 +453,6 @@ function ContactTable({
           </Button>
         </div>
       )}
-
     </>
   );
 }
