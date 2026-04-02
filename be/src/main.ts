@@ -15,6 +15,6 @@ async function bootstrap() {
   const port = envConfig.PORT  || 3001;
   await app.listen(port);
   console.log("Server running on port:", port);
-  console.log(process.env.DATABASE_URL)
+  console.log(envConfig.NODE_ENV)
 }
 bootstrap();

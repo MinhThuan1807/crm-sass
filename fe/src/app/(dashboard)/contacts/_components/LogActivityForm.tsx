@@ -17,12 +17,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { relativeTime } from "@/lib/helper";
-import { de } from "zod/v4/locales";
 
 const TABS: { key: ActivityTab; label: string; icon: typeof Phone }[] = [
   { key: ACTIVITIES_TYPES.CALL, label: "Cuộc gọi", icon: Phone },

@@ -1,18 +1,14 @@
-import z from 'zod';
+import z from 'zod'
 
-import fs from 'fs';
-import path from 'path';
-import { config } from 'dotenv';
+import fs from 'fs'
+import path from 'path'
+import { config } from 'dotenv'
 
-// Load environment variables from .env file
-config({
-  path: '.env',
-});
+const envFilePath = path.resolve('.env')
 
-// Check if .env file exists
-if (!fs.existsSync(path.resolve('.env'))) {
-  console.log('Not found .env file!');
-  process.exit(1);
+// Support both local .env file and container-injected environment variables.
+if (fs.existsSync(envFilePath)) {
+  config({ path: envFilePath })
 }
 
 const ConfigSchema = z.object({
@@ -25,7 +21,7 @@ const ConfigSchema = z.object({
   FRONTEND_URL: z.string(),
   NODE_ENV: z.string(),
   PORT: z.string(),
-  
+
   // SECRET_API_KEY: z.string(),
   // ADMIN_NAME: z.string(),
   // ADMIN_PASSWORD: z.string(),
@@ -33,21 +29,21 @@ const ConfigSchema = z.object({
   // ADMIN_PHONE: z.string(),
   // OTP_EXPIRES_IN: z.string(),
   // RESEND_API_KEY: z.string(),
-});
+})
 
 // const configServer = plainToInstance(ConfigSchema, process.env);
-const configServer = ConfigSchema.safeParse(process.env);
+const configServer = ConfigSchema.safeParse(process.env)
 
 if (!configServer.success) {
-  console.log('Invalid environment variables:');
+  console.log('Invalid environment variables:')
   // throw configServer.error;
-  console.log(configServer.error);
-  process.exit(1);
+  console.log(configServer.error)
+  process.exit(1)
 }
 
 // console.log(process.env)
 // console.log(e);
 
-const envConfig = configServer.data;
+const envConfig = configServer.data
 
-export default envConfig;
+export default envConfig
