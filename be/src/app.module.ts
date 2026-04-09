@@ -10,8 +10,9 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter'
 import { AuthModule } from './routes/auth/auth.module'
 import { ContactsModule } from './routes/contacts/contacts.module';
 import { ActivitiesModule } from './routes/activities/activities.module';
+import { DealModule } from './routes/deal/deal.module';
 @Module({
-  imports: [CommonModule, AuthModule, ContactsModule, ActivitiesModule],
+  imports: [CommonModule, AuthModule, ContactsModule, ActivitiesModule, DealModule],
   controllers: [AppController],
   providers: [
     AppService,

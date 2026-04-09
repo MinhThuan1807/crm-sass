@@ -17,6 +17,7 @@ import { Roles } from 'src/common/decorators/roles.decorator'
 import { ROLE } from 'src/common/constants/role.constanst'
 import { MessageDto } from 'src/common/dto/message.dto'
 import envConfig from 'src/common/config'
+import { AccessTokenPayload } from 'src/common/types/jwt.type'
 
 // Cookie options dùng chung để đảm bảo nhất quán
 const isProduction = envConfig.NODE_ENV === 'production'
@@ -53,8 +54,8 @@ export class AuthController {
       ...COOKIE_OPTIONS,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 ngày
     })
-
-    return { message: 'Login successful' }
+    console.log(refreshToken)
+    return { message: 'Đăng nhập thành công' }
   }
 
   @Post('logout')
@@ -78,14 +79,14 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  getProfile(@CurrentUser() user) {
+  getProfile(@CurrentUser() user: AccessTokenPayload) {
     return user
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(ROLE.ADMIN)
+  @Roles(ROLE.MANAGER)
   @Get('admin')
-  getAdminProfile(@CurrentUser() user) {
+  getAdminProfile(@CurrentUser() user: AccessTokenPayload) {
     return { message: 'Đường dẫn cho ADMIN', user }
   }
 }
