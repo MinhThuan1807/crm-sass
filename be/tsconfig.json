@@ -28,6 +28,7 @@
 // }
 {
   "compilerOptions": {
+    "types": ["jest", "node"],
     "jsx": "react-jsx",
     "module": "commonjs",
     "declaration": true,
@@ -38,7 +39,12 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    //  "baseUrl": "./",
+    "moduleResolution": "node", // or "node"
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "src/*": ["./src/*"]
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
